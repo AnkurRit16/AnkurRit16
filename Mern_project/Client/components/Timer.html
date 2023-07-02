@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stopwatch</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+      .stopwatch-container {
+        text-align: center;
+        margin-top: 100px;
+      }
+
+      #timer {
+        padding: 20px;
+        font-size: 60px;
+        background-color: burlywood;
+        width: 200px;
+      }
+
+      .btn-container {
+        margin-top: 20px;
+        width: 150px;
+        padding: 10px;
+        margin-left:425px; 
+      }
+
+      #startButton {
+        margin-top:40px;
+        background-color: darkgreen;
+        text-align: center;
+        width: 150px;
+        font-size: 20px;
+        font-style: italic;
+        color: white;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        cursor: pointer;
+      }
+      #startButton:hover {
+        color: darkgreen;
+        background-color: white;
+      }
+      #stopButton {
+        margin-top:40px;
+        background-color:darkred;
+        text-align: center;
+        width: 150px;
+        font-size: 20px;
+        font-style: italic;
+        color: white;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        cursor: pointer;
+      }
+      #stopButton:hover {
+        color: red;
+        background-color: white;
+      }
+      #resetButton {
+        margin-top:40px;
+        background-color:grey;
+        text-align: center;
+        width: 150px;
+        font-size: 20px;
+        font-style: italic;
+        color: black;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        cursor: pointer;
+      }
+      #resetButton:hover {
+        color: white;
+        background-color:black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stopwatch-container">
+      <span id="timer">00:00:00</span>
+      <div class="btn-container">
+        <button id="startButton">Start Duty</button>
+        <button id="stopButton">Stop Duty</button>
+        <button id="resetButton">Reset Duty</button>
+      </div>
+    </div>
+
+    <script>
+      var startTime;
+      var elapsedTime = 0;
+      var timerInterval;
+      // Function to update the stopwatch display
+      function updateTimer() {
+        var currentTime = new Date().getTime();
+        elapsedTime = currentTime - startTime;
+
+        // Calculate hours, minutes, and seconds
+        var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+        var minutes = Math.floor(
+          (elapsedTime % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+        // Format the time as HH:MM:SS
+        var formattedTime =
+          (hours < 10 ? "0" + hours : hours) +
+          ":" +
+          (minutes < 10 ? "0" + minutes : minutes) +
+          ":" +
+          (seconds < 10 ? "0" + seconds : seconds);
+
+        // Update the stopwatch display
+        document.getElementById("timer").textContent = formattedTime;
+      }
+
+      // Event listener for the start button
+      document
+        .getElementById("startButton")
+        .addEventListener("click", function () {
+          startTime = new Date().getTime() - elapsedTime; // Set the start time to the current time minus the elapsed time
+          timerInterval = setInterval(updateTimer, 1000); // Start the timer interval (refreshes every second)
+        });
+
+      // Event listener for the stop button
+      document
+        .getElementById("stopButton")
+        .addEventListener("click", function () {
+          clearInterval(timerInterval); // Stop the timer interval
+        });
+
+      // Event listener for the reset button
+      document
+        .getElementById("resetButton")
+        .addEventListener("click", function () {
+          clearInterval(timerInterval); // Stop the timer interval
+          elapsedTime = 0; // Reset the elapsed time
+          updateTimer(); // Update the stopwatch display
+        });
+    </script>
+  </body>
+</html>
